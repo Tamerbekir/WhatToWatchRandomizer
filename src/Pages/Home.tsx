@@ -48,7 +48,7 @@ export default function Home() {
           <Dropdown.Item
             href="#/action-1"
             active
-            onClick={() => handleActivitySelect("game", "Game")}
+            onClick={() => handleActivitySelect("game", "game")}
           >
             Game
           </Dropdown.Item>
@@ -61,14 +61,14 @@ export default function Home() {
           </Dropdown.Item>
           <Dropdown.Item
             href="#/action-3"
-            onClick={() => handleActivitySelect("show", "Show")}
+            onClick={() => handleActivitySelect("show", "show")}
           >
             Show
           </Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item
             href="#/action-4"
-            onClick={() => handleActivitySelect("other", "Other")}
+            onClick={() => handleActivitySelect("other", "other")}
           >
             Other
           </Dropdown.Item>
