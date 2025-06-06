@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { useState, useEffect, type ChangeEvent } from "react";
 export default function MovieComponent() {
   interface MovieProp {
     name: string;
@@ -9,7 +9,14 @@ export default function MovieComponent() {
     name: "",
     streamingService: "",
   });
-  const [movieList, setMovieList] = useState<MovieProp[]>([]);
+  const [movieList, setMovieList] = useState<MovieProp[]>(() => {
+    const saveList = localStorage.getItem("movieList");
+    return saveList ? JSON.parse(saveList) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("movieList", JSON.stringify(movieList));
+  }, [movieList]);
 
   const handleMovieActivity = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -28,10 +35,12 @@ export default function MovieComponent() {
     setMovieList(updateMovieList);
   };
 
+  // copying array and sorting it, then using math random to make the movie list randomized. Updating useState
   const handleRandomChoice = () => {
-    const randomMovieList = [...movieList];
-    randomMovieList * Math.random;
-    setMovieList(randomMovieList);
+    const randomMovieChoice = [...movieList];
+    randomMovieChoice.sort(() => Math.random() - 2);
+    setMovieList(randomMovieChoice);
+    // console.log(randomMovieChoice);
   };
 
   return (
@@ -68,6 +77,7 @@ export default function MovieComponent() {
             </div>
           </>
         ))}
+        <button onClick={handleRandomChoice}>Random Pick</button>
       </div>
     </div>
   );
