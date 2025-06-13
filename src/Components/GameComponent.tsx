@@ -1,8 +1,8 @@
-import { useState } from "react";
+// import { useState } from "react";
 export default function GameComponent() {
-  interface GameProp {
-    name: string;
-  }
+  // interface GameProp {
+  //   name: string;
+  // }
   return (
     <div>
       <p>Game</p>

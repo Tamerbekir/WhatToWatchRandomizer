@@ -1,8 +1,8 @@
-import { useState } from "react";
+// import { useState } from "react";
 export default function ShowComponent() {
-  interface ShowProp {
-    name: string;
-  }
+  // interface ShowProp {
+  //   name: string;
+  // }
   return (
     <div>
       <p>Show</p>
