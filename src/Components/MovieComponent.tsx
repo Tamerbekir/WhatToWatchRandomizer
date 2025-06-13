@@ -13,6 +13,8 @@ export default function MovieComponent() {
     const saveList = localStorage.getItem("movieList");
     return saveList ? JSON.parse(saveList) : [];
   });
+  const [showRandomBtn, setShowRandomBtn] = useState<boolean>(true)
+  const [showEditBtn, setShowEditBtn] = useState<boolean>(false)
 
   useEffect(() => {
     localStorage.setItem("movieList", JSON.stringify(movieList));
@@ -27,6 +29,7 @@ export default function MovieComponent() {
   const handleSubmitMovieActivity = () => {
     setMovieList([...movieList, movieActivity]);
     setMovieActivity({ name: "", streamingService: "" });
+    setShowEditBtn(false)
   };
 
   const handleDeleteMovieActivity = (index: number) => {
@@ -38,10 +41,14 @@ export default function MovieComponent() {
   // copying array and sorting it, then using math random to make the movie list randomized. Updating useState
   const handleRandomChoice = () => {
     const randomMovieChoice = [...movieList];
-    randomMovieChoice.sort(() => Math.random() - 2);
+    randomMovieChoice.sort(() => Math.random() - 0.5);
     setMovieList(randomMovieChoice);
     // console.log(randomMovieChoice);
   };
+
+  const handleShowEditBtn = () => {
+    setShowEditBtn(!showEditBtn)
+  }
 
   return (
     <div>
@@ -71,13 +78,22 @@ export default function MovieComponent() {
           <>
             <div key={index}>
               <p>{item.name}</p>
+              {showEditBtn && (                
               <button onClick={() => handleDeleteMovieActivity(index)}>
                 Delete {item.name}
               </button>
+              )}
             </div>
           </>
         ))}
-        <button onClick={handleRandomChoice}>Random Pick</button>
+        {/* Random show btn goes away after one click */}
+        {showRandomBtn && (
+          <button onClick={() => 
+            {handleRandomChoice(), setShowRandomBtn(false)}}>Random Pick</button>
+        )}
+        {movieList.length > 0 && (
+          <button onClick={handleShowEditBtn}>{showEditBtn ? 'Done' : 'Edit List'}</button>
+        )}
       </div>
     </div>
   );
