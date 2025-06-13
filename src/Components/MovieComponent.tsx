@@ -87,13 +87,13 @@ export default function MovieComponent() {
           </>
         ))}
         {/* Random show btn goes away after one click */}
-        {showRandomBtn && (
+        {showRandomBtn && movieList.length > 0 && (
           <button onClick={() => 
             {handleRandomChoice(), setShowRandomBtn(false)}}>Random Pick</button>
-        )}
-        {movieList.length > 0 && (
-          <button onClick={handleShowEditBtn}>{showEditBtn ? 'Done' : 'Edit List'}</button>
-        )}
+            )}
+            {movieList.length > 0 && (
+              <button onClick={handleShowEditBtn}>{showEditBtn ? 'Done' : 'Edit List'}</button>
+            )}
       </div>
     </div>
   );
