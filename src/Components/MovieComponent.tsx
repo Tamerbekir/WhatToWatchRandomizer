@@ -9,6 +9,9 @@ export default function MovieComponent() {
     name: "",
     streamingService: "",
   });
+
+  const [selectedMovie, setSelectedMovie] = useState<MovieProp>()
+
   const [movieList, setMovieList] = useState<MovieProp[]>(() => {
     const saveList = localStorage.getItem("movieList");
     return saveList ? JSON.parse(saveList) : [];
@@ -39,10 +42,13 @@ export default function MovieComponent() {
   };
 
   // copying array and sorting it, then using math random to make the movie list randomized. Updating useState
+  //works best with more than 10 within array
   const handleRandomChoice = () => {
     const randomMovieChoice = [...movieList];
     randomMovieChoice.sort(() => Math.random() - 0.5);
     setMovieList(randomMovieChoice);
+    setSelectedMovie(movieList[0]);
+
     // console.log(randomMovieChoice);
   };
 
@@ -50,9 +56,12 @@ export default function MovieComponent() {
     setShowEditBtn(!showEditBtn)
   }
 
+  // console.log(movieList[0])
+
   return (
     <div>
       <input
+      className="movie-input"
         type="text"
         name="name"
         value={movieActivity.name}
@@ -60,6 +69,7 @@ export default function MovieComponent() {
         placeholder="Movie Name"
       />
       <input
+      className="movie-input"
         type="text"
         name="streamingService"
         value={movieActivity.streamingService}
@@ -67,7 +77,7 @@ export default function MovieComponent() {
         placeholder="Steaming Service"
       />
       {movieActivity.streamingService ? (
-        <button onClick={handleSubmitMovieActivity}>
+        <button className="movie-button"  onClick={handleSubmitMovieActivity}>
           Add {movieActivity.name}
         </button>
       ) : (
@@ -76,7 +86,7 @@ export default function MovieComponent() {
       <div>
         {movieList.map((item, index) => (
           <>
-            <div key={index}>
+            <div className="movie-item" key={index}>
               <p>{item.name}</p>
               {showEditBtn && (                
               <button onClick={() => handleDeleteMovieActivity(index)}>
@@ -86,14 +96,22 @@ export default function MovieComponent() {
             </div>
           </>
         ))}
-        {/* Random show btn goes away after one click */}
-        {showRandomBtn && movieList.length > 0 && (
-          <button onClick={() => 
+        {/* Random show btn goes away after one click. FEATURE NOT A BUG!*/}
+        <div>
+          {movieList.length < 4 &&
+          <p>Please add at least 5 movies to randomized. You have currently have {movieList.length}.</p>
+          }
+        {showRandomBtn && movieList.length > 4 && (
+          <button className="movie-button"  onClick={() => 
             {handleRandomChoice(), setShowRandomBtn(false)}}>Random Pick</button>
             )}
             {movieList.length > 0 && (
-              <button onClick={handleShowEditBtn}>{showEditBtn ? 'Done' : 'Edit List'}</button>
-            )}
+              <button className="movie-button"  onClick={handleShowEditBtn}>{showEditBtn ? 'Done' : 'Edit List'}</button>
+              )}
+              {selectedMovie && (
+                <h1>Time to watch {selectedMovie?.name} on {selectedMovie?.streamingService}!</h1>
+              )}
+        </div>
       </div>
     </div>
   );
